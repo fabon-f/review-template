@@ -1,1 +1,37 @@
 % for user-defined macro
+\ifdefined\review@highlightlatex
+  \ifthenelse{\equal{\review@highlightlatex}{listings}}{%
+    \ifthenelse{\equal{\review@language}{ja}}{%
+      \def\recls@tmp{lualatex}\ifx\recls@tmp\recls@engine
+        \RequirePackage{listings}
+      \else
+        \RequirePackage{listings,plistings}
+      \fi
+    }{%
+      \RequirePackage{listings}
+    }%
+  \renewcommand{\lstlistingname}{\review@intn@list}
+  \lstset{%
+    breaklines=true,%
+    breakautoindent=false,%
+    breakindent=0pt,%
+    fontadjust=true,%
+    backgroundcolor=\color{shadecolor},%
+    frame=single,%
+    framerule=0pt,%
+    basicstyle=\ttfamily\scriptsize,%
+    commentstyle=\color{reviewgreen},%
+    identifierstyle=\color{reviewblue},%
+    stringstyle=\color{reviewred},%
+    keywordstyle=\bfseries\color{reviewdarkred},%
+  }
+  % \lstnewenvironment{reviewemlistlst}[1][]{\lstset{#1}}{}
+  % \lstnewenvironment{reviewemlistnumlst}[1][]{\lstset{numbers=left, #1}}{}
+  \lstnewenvironment{reviewlistlst}[1][]{\lstset{#1}}{}
+  \lstnewenvironment{reviewlistnumlst}[1][]{\lstset{numbers=left, #1}}{}
+  % \lstnewenvironment{reviewsourcelst}[1][]{\lstset{#1}}{}
+  % \lstnewenvironment{reviewsourcenumlst}[1][]{\lstset{numbers=left, #1}}{}
+  \lstnewenvironment{reviewcmdlst}[1][]{\lstset{backgroundcolor=\color{white}, frameround=tttt, frame=trbl, #1}}{}
+  }{%
+  }
+\fi
