@@ -20,12 +20,15 @@
 
 require 'fileutils'
 require 'rake/clean'
+require 'yaml'
+require 'date'
 
-BOOK = ENV['REVIEW_BOOK'] || 'book'
+CONFIG_FILE = ENV['REVIEW_CONFIG_FILE'] || 'config.yml'
+CONFIG = YAML.load_file(CONFIG_FILE, permitted_classes: [Date])
+BOOK = CONFIG['bookname'] || ENV['REVIEW_BOOK'] || 'book'
 BOOK_PDF = BOOK + '.pdf'
 BOOK_EPUB = BOOK + '.epub'
-CONFIG_FILE = ENV['REVIEW_CONFIG_FILE'] || 'config.yml'
-CATALOG_FILE = ENV['REVIEW_CATALOG_FILE'] || 'catalog.yml'
+CATALOG_FILE = CONFIG['catalogfile'] || ENV['REVIEW_CATALOG_FILE'] || 'catalog.yml'
 WEBROOT = ENV['REVIEW_WEBROOT'] || 'webroot'
 TEXTROOT = BOOK + '-text'
 TOPROOT = BOOK + '-text'
