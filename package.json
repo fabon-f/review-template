@@ -1,0 +1,12 @@
+{
+  "name": "review-template",
+  "private": true,
+  "scripts": {
+    "pdf": "bundle exec rake pdf",
+    "textlint": "textlint -f pretty-error 'articles/*.re'"
+  },
+  "devDependencies": {
+    "textlint": "^12.2.1",
+    "textlint-plugin-review": "^0.4.1"
+  }
+}
