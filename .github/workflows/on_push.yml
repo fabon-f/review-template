@@ -16,7 +16,7 @@ jobs:
         run: |
           cd /work && \
           bundle install && \
-          rake pdf:grayscale
+          cd articles && bundle exec rake pdf:grayscale
     - name: Upload distribution files to GitHub artifacts
       uses: actions/upload-artifact@v3
       with:
