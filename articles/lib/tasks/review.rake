@@ -115,6 +115,14 @@ file BOOK_PDF => SRC + SRC_PDF do
   sh "review-pdfmaker #{PDF_OPTIONS} #{CONFIG_FILE}"
 end
 
+grayscale_pdf = "#{BOOK}-gs.pdf"
+desc 'generate grayscale PDF file'
+task 'pdf:grayscale': grayscale_pdf
+
+file grayscale_pdf => BOOK_PDF do
+  sh "gs -sOutputFile=#{grayscale_pdf} -sDEVICE=pdfwrite -sColorConversionStrategy=Gray  -dProcessColorModel=/DeviceGray -dCompatibilityLevel=1.4 -dNOPAUSE -dBATCH #{BOOK_PDF}"
+end
+
 file BOOK_EPUB => SRC + SRC_EPUB do
   FileUtils.rm_rf([BOOK_EPUB, BOOK, BOOK + '-epub'])
   sh "review-epubmaker #{EPUB_OPTIONS} #{CONFIG_FILE}"
@@ -146,4 +154,4 @@ end
 desc 'build with vivliostyle'
 task vivliostyle: 'vivliostyle:build'
 
-CLEAN.include([BOOK, BOOK_PDF, BOOK_EPUB, BOOK + '-pdf', BOOK + '-epub', WEBROOT, 'images/_review_math', 'images/_review_math_text', TEXTROOT, IDGXMLROOT])
+CLEAN.include([BOOK, BOOK_PDF, BOOK_EPUB, BOOK + '-pdf', BOOK + '-epub', WEBROOT, 'images/_review_math', 'images/_review_math_text', TEXTROOT, IDGXMLROOT, grayscale_pdf])
