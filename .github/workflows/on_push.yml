@@ -3,22 +3,23 @@ name: Build Re:VIEW to make distribution file
 on: [push]
 
 jobs:
-  build-pdf:
-    runs-on: ubuntu-latest
-    steps:
-    - name: checkout source
-      uses: actions/checkout@v3
-    # Build Artifacts
-    - uses: addnab/docker-run-action@v3
-      with:
-        image: vvakame/review:5.5
-        options: -v ${{ github.workspace }}:/work
-        run: |
-          cd /work && \
-          bundle install && \
-          cd articles && bundle exec rake pdf:grayscale
-    - name: Upload distribution files to GitHub artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: Output documents (PDF)
-        path: ./articles/*.pdf
+  # build-pdf:
+  #   # vvakame/review is too old to build project with review-jlreq
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: checkout source
+  #     uses: actions/checkout@v3
+  #   # Build Artifacts
+  #   - uses: addnab/docker-run-action@v3
+  #     with:
+  #       image: vvakame/review:5.5
+  #       options: -v ${{ github.workspace }}:/work
+  #       run: |
+  #         cd /work && \
+  #         bundle install && \
+  #         cd articles && bundle exec rake pdf:grayscale
+  #   - name: Upload distribution files to GitHub artifacts
+  #     uses: actions/upload-artifact@v3
+  #     with:
+  #       name: Output documents (PDF)
+  #       path: ./articles/*.pdf
