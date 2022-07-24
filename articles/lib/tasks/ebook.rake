@@ -1,3 +1,4 @@
+require 'rake/clean'
 require 'yaml'
 require 'date'
 
@@ -21,3 +22,5 @@ file book_pdf => src + src_pdf do
   FileUtils.rm_rf([book_pdf, book, book + '-pdf'])
   sh "review-pdfmaker #{pdf_options} #{ebook_config_file}"
 end
+
+CLEAN.include([book_pdf])
