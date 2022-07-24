@@ -1,4 +1,5 @@
 % for user-defined macro
+\usepackage{inconsolata}
 \ifdefined\review@highlightlatex
   \ifthenelse{\equal{\review@highlightlatex}{listings}}{%
     \ifthenelse{\equal{\review@language}{ja}}{%
@@ -35,3 +36,16 @@
   }{%
   }
 \fi
+
+\lstset{showstringspaces=false}
+\def\reclscustom@tmp{print}\ifx\recls@cameraready\reclscustom@tmp
+  \lstset{%
+  backgroundcolor=\color{shadecolor},%
+  basicstyle=\ttfamily\scriptsize,%
+  commentstyle=\color{gray},%
+  identifierstyle=\color{black},%
+  stringstyle=\color{black},%
+  keywordstyle=\bfseries\color{black},%
+  }
+\else\def\reclscustom@tmp{ebook}\ifx\recls@cameraready\reclscustom@tmp
+\fi\fi
