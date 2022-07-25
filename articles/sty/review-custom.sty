@@ -1,5 +1,8 @@
 % for user-defined macro
 \usepackage{inconsolata}
+
+% listings config
+% original: https://github.com/kmuto/review/blob/v5.5.0/templates/latex/review-jsbook/review-base.sty#L80-L111
 \ifdefined\review@highlightlatex
   \ifthenelse{\equal{\review@highlightlatex}{listings}}{%
     \ifthenelse{\equal{\review@language}{ja}}{%
@@ -37,6 +40,7 @@
   }
 \fi
 
+% my config
 \lstset{showstringspaces=false}
 \def\reclscustom@tmp{print}\ifx\recls@cameraready\reclscustom@tmp
   \lstset{%
