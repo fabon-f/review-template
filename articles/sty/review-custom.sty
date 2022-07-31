@@ -29,16 +29,54 @@
     stringstyle=\color{reviewred},%
     keywordstyle=\bfseries\color{reviewdarkred},%
   }
-  % \lstnewenvironment{reviewemlistlst}[1][]{\lstset{#1}}{}
-  % \lstnewenvironment{reviewemlistnumlst}[1][]{\lstset{numbers=left, #1}}{}
+  \lstnewenvironment{reviewemlistlst}[1][]{\lstset{#1}}{}
+  \lstnewenvironment{reviewemlistnumlst}[1][]{\lstset{numbers=left, #1}}{}
   \lstnewenvironment{reviewlistlst}[1][]{\lstset{#1}}{}
   \lstnewenvironment{reviewlistnumlst}[1][]{\lstset{numbers=left, #1}}{}
-  % \lstnewenvironment{reviewsourcelst}[1][]{\lstset{#1}}{}
-  % \lstnewenvironment{reviewsourcenumlst}[1][]{\lstset{numbers=left, #1}}{}
+  \lstnewenvironment{reviewsourcelst}[1][]{\lstset{#1}}{}
+  \lstnewenvironment{reviewsourcenumlst}[1][]{\lstset{numbers=left, #1}}{}
   \lstnewenvironment{reviewcmdlst}[1][]{\lstset{backgroundcolor=\color{white}, frameround=tttt, frame=trbl, #1}}{}
   }{%
   }
 \fi
+
+% temporaly workaround: https://github.com/abenori/jlreq/commit/6e75b54b2ea688e4f0b202d256492b79ac006b52
+\renewcommand{\@makecaption}[2]{{%
+  % \jlreq@tempbに現在の環境を入れる．
+  \@ifundefined{@currenvir}{%
+    \@ifundefined{@captype}%
+      {\def\jlreq@tempb{}}%
+      {\let\jlreq@tempb=\@captype}%
+  }{\let\jlreq@tempb=\@currenvir}%
+  \reset@font\small
+  \vskip\abovecaptionskip
+  \edef\jlreq@do{\unexpanded{\def\jlreq@tempa##1}{\jlreq@jlreqsetup@withenv@nameuse{jlreq@@makecaption@label@format@setting}{\jlreq@tempb}}}%
+  \jlreq@do
+  \setbox\jlreq@tempboxa=\hbox{\jlreq@jlreqsetup@withenv@nameuse{jlreq@@makecaption@label@font@setting}{\jlreq@tempb}#1\relax}%
+  \ifdim\wd\jlreq@tempboxa=0pt
+    \edef\jlreq@tempa{{\jlreq@jlreqsetup@withenv@nameuse{jlreq@@makecaption@font@setting}{\jlreq@tempb}\unexpanded{#2}}}%
+  \else
+    \edef\jlreq@tempa{%
+      {\jlreq@jlreqsetup@withenv@nameuse{jlreq@@makecaption@label@font@setting}{\jlreq@tempb}\exp_not:o {\jlreq@tempa{#1}}}%
+      % ↓modified line
+      \unexpanded{\hskip\glueexpr}\jlreq@jlreqsetup@withenv@nameuse{jlreq@@makecaption@after@label@space@setting}{\jlreq@tempb}\noexpand\relax
+      {\jlreq@jlreqsetup@withenv@nameuse{jlreq@@makecaption@font@setting}{\jlreq@tempb}\unexpanded{#2}}%
+    }%
+  \fi
+  \setbox\@tempboxa=\hbox{\jlreq@tempa}%
+  \ifdim\wd\@tempboxa>\hsize\relax
+    \edef\jlreq@tempc{\jlreq@jlreqsetup@withenv@nameuse{jlreq@@makecaption@align@setting@large}{\jlreq@tempb}}%
+  \else
+    \global\@minipagefalse
+    \edef\jlreq@tempc{\jlreq@jlreqsetup@withenv@nameuse{jlreq@@makecaption@align@setting@small}{\jlreq@tempb}}%
+  \fi
+  \expandafter\let\expandafter\jlreq@align\jlreq@tempc
+  \ifx c\jlreq@align\centering\fi
+  \ifx r\jlreq@align\raggedleft\fi
+  \unhbox\@tempboxa
+  \par
+  \vskip\belowcaptionskip
+}}
 
 % my config
 \lstset{showstringspaces=false}
